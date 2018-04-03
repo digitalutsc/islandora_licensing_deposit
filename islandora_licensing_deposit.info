@@ -1,4 +1,4 @@
-name = Islandora Licensing and Deposit Module
+name = Islandora Licensing and Deposit
 description = Adds licensing and deposit agreement features to Islandora."
 package = Islandora
 version = 7.x-dev
