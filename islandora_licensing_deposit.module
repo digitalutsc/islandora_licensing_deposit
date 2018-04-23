@@ -4,6 +4,22 @@
  * Module used to license and deposit agreement functionality to Islandora.
  **/
 
+/**
+ * Implements hook_menu().
+ */
+function islandora_licensing_deposit_menu() {
+  $items['admin/islandora/tools/licensing_deposit'] = array(
+    'title' => 'Licensing and Deposit',
+    'description' => '',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('islandora_licensing_deposit_admin'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/admin.form.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
 function islandora_licensing_deposit_islandora_ingest_steps_alter(array &$steps, array &$form_state) {
   if (isset($steps['xml_form_builder_metadata_step'])) {
     $association = isset($steps['xml_form_builder_metadata_step']['args'][0]) ? $steps['xml_form_builder_metadata_step']['args'][0] : NULL;
