@@ -22,14 +22,12 @@ function islandora_licensing_deposit_menu() {
 
 function islandora_licensing_deposit_islandora_ingest_steps_alter(array &$steps, array &$form_state) {
   if (isset($steps['xml_form_builder_metadata_step'])) {
-    $association = isset($steps['xml_form_builder_metadata_step']['args'][0]) ? $steps['xml_form_builder_metadata_step']['args'][0] : NULL;
-    $content_model = $association["content_model"];
+    $collection = isset($form_state['islandora']['shared_storage']['parent']) ? $form_state['islandora']['shared_storage']['parent'] : NULL;
 
     $steps['islandora_licensing_deposit_form'] = array(
       'type' => 'form',
-      'weight' => 8,
       'form_id' => 'islandora_licensing_deposit_form',
-      'args' => array($content_model),
+      'args' => array($collection),
       'file' => 'includes/deposit_form.inc',
       'module' => 'islandora_licensing_deposit',
     );
