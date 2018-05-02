@@ -37,9 +37,15 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     '#suffix' => '</div>',
     '#tree' => TRUE,
     '#theme' => 'table',
-    '#header' => array(t('Collection'), t('Url')),
+    '#header' => array(t('Collection'), t('Url'), t('Applicable Roles')),
     '#rows' => array(),
   );
+  $user_roles = user_roles();
+
+  $role_options = array();
+  foreach($user_roles as $key1 => $value1) {
+    $role_options[$value1] = $value1;
+  }
 
   // Build elements from saved config entries
   foreach ($collections_url_map as $key => $value) {
@@ -56,10 +62,20 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       '#default_value' => $collections_url_map[$key]['url'],
     );
 
+    $roles = array(
+      '#id' => 'role_' . $key,
+      '#type' => 'checkboxes',
+      '#prefix' => '<div class="container-inline">',
+      '#suffix' => '</div>',
+      '#options' => $role_options,
+      '#default_value' => $collections_url_map[$key]['roles'],
+    );
+
     // This gets stored in the variable
     $form['islandora_licensing_deposit'][$key] = array(
       'collection' => &$collection,
       'url' => &$url,
+      'roles' => &$roles,
     );
 
     // This gets used by theme
@@ -67,6 +83,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       'data' => array(
         'collection' => array('data' => &$collection),
         'url' => array('data' => &$url),
+        'roles' => array('data' => &$roles),
       ),
     );
 
@@ -75,6 +92,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     // unset pointers
     unset($collection);
     unset($url);
+    unset($roles);
   }
 
   // Inserting new fields if the user clicked add
@@ -92,10 +110,19 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       '#type' => 'textfield',
     );
 
+    $roles = array(
+      '#id' => 'role_' . $key,
+      '#type' => 'checkboxes',
+      '#prefix' => '<div class="container-inline">',
+      '#suffix' => '</div>',
+      '#options' => $role_options,
+    );
+
     // This gets stored in the variable
     $form['islandora_licensing_deposit'][$key] = array(
       'collection' => &$collection,
       'url' => &$url,
+      'roles' => &$roles,
     );
 
     // This gets used by theme
@@ -103,6 +130,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       'data' => array(
         'collection' => array('data' => &$collection),
         'url' => array('data' => &$url),
+        'roles' => array('data' => &$roles),
       ),
     );
 
@@ -111,6 +139,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     // unset pointers
     unset($collection);
     unset($url);
+    unset($roles);
   }
 
   // Add Button
