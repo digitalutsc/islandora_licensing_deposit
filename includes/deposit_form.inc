@@ -18,14 +18,13 @@
  *   A Drupal form definition.
  */
 
-
 function islandora_licensing_deposit_form(array $form, array &$form_state, $args) {
   $selected_collection_name = $args;
 
   $selected_collection_url = get_license_deposit_url($selected_collection_name);
 
-  $form = array();
-  $form['islandora_licensing_deposit_file_form'] = array(
+
+  $form['islandora_licensing_deposit_agreement'] = array(
     '#type' => 'textfield',
     '#title' => 'Deposit Agreement',
     '#description' => t('Deposit and Licensing Agreement. Please read carefully.'),
@@ -34,7 +33,7 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
     '#resizable' => TRUE,
   );
 
-  $form['islandora_licensing_deposit_file_form_read'] = array(
+  $form['islandora_licensing_deposit_agreement_link'] = array(
     '#type' => 'link',
     '#title' => t('Read Licensing/Deposit Agreement'),
     '#href' => $selected_collection_url,
@@ -42,8 +41,6 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
       'target' => "_blank",
     ),
   );
-
-  $form['#attributes']['target'] = '_top';
 
   $form["deposit_check"] = array(
     '#title' => 'Click here to agree:',
@@ -55,6 +52,7 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
 
   return $form;
 }
+
 
 function get_license_deposit_url($selected_collection_name) {
   $collections_url_map = variable_get('islandora_licensing_deposit');
@@ -70,5 +68,4 @@ function get_license_deposit_url($selected_collection_name) {
   }
   return $selected_collection_url;
 }
-
 

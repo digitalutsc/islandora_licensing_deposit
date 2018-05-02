@@ -21,17 +21,22 @@ function islandora_licensing_deposit_menu() {
 }
 
 function islandora_licensing_deposit_islandora_ingest_steps_alter(array &$steps, array &$form_state) {
-  if (isset($steps['xml_form_builder_metadata_step'])) {
-    $collection = isset($form_state['islandora']['shared_storage']['parent']) ? $form_state['islandora']['shared_storage']['parent'] : NULL;
 
-    $steps['islandora_licensing_deposit_form'] = array(
-      'type' => 'form',
-      'form_id' => 'islandora_licensing_deposit_form',
-      'weight' => 1,
-      'args' => array($collection),
-      'file' => 'includes/deposit_form.inc',
-      'module' => 'islandora_licensing_deposit',
-    );
+  if (isset($steps['xml_form_builder_metadata_step'])) {
+    $association = isset($steps['xml_form_builder_metadata_step']['args'][0]) ? $steps['xml_form_builder_metadata_step']['args'][0] : NULL;
+    if (isset($association['dsid']) && $association['dsid'] == 'MODS') {
+
+      $collection = isset($form_state['islandora']['shared_storage']['parent']) ? $form_state['islandora']['shared_storage']['parent'] : NULL;
+
+      $steps['islandora_licensing_deposit_form'] = array(
+        'type' => 'form',
+        'form_id' => 'islandora_licensing_deposit_form',
+        'weight' => -10,
+        'args' => array($collection),
+        'file' => 'includes/deposit_form.inc',
+        'module' => 'islandora_licensing_deposit',
+      );
+    }
   }
 }
 
