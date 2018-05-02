@@ -56,7 +56,6 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       '#default_value' => $collections_url_map[$key]['url'],
     );
 
-
     // This gets stored in the variable
     $form['islandora_licensing_deposit'][$key] = array(
       'collection' => &$collection,

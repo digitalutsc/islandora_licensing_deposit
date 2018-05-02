@@ -23,7 +23,6 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
 
   $selected_collection_url = get_license_deposit_url($selected_collection_name);
 
-
   $form['islandora_licensing_deposit_agreement'] = array(
     '#type' => 'textfield',
     '#title' => 'Deposit Agreement',
