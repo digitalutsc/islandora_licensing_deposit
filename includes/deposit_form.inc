@@ -51,6 +51,8 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
     '#required' => TRUE,
   );
 
+  $form_state['islandora']['shared_storage']['agreement_url'] = $selected_collection_url;
+
   return $form;
 }
 

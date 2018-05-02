@@ -27,9 +27,29 @@ function islandora_licensing_deposit_islandora_ingest_steps_alter(array &$steps,
     $steps['islandora_licensing_deposit_form'] = array(
       'type' => 'form',
       'form_id' => 'islandora_licensing_deposit_form',
+      'weight' => 1,
       'args' => array($collection),
       'file' => 'includes/deposit_form.inc',
       'module' => 'islandora_licensing_deposit',
     );
   }
+}
+
+function islandora_licensing_deposit_form_xml_form_builder_ingest_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $username = "anonymous";
+
+  if (isset($user->name)) {
+    $username = $user->name;
+  }
+
+  $timestamp = date('Y-m-d H:i:s');
+  $agreement_url = $form_state['islandora']['shared_storage']['agreement_url'];
+  $form['accessCondition2']['#value'] = $agreement_url . " | " . $username . " | " . $timestamp;
+  $form['accessCondition2']['#attributes'] = array('readonly' => 'readonly');
+}
+
+
+function islandora_licensing_deposit_form_xml_form_builder_datastream_form_alter(&$form, &$form_state, $form_id) {
+  $form['accessCondition2']['#attributes'] = array('readonly' => 'readonly');
 }
