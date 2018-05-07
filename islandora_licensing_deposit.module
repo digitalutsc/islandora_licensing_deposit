@@ -26,16 +26,19 @@ function islandora_licensing_deposit_islandora_ingest_steps_alter(array &$steps,
     $association = isset($steps['xml_form_builder_metadata_step']['args'][0]) ? $steps['xml_form_builder_metadata_step']['args'][0] : NULL;
     if (isset($association['dsid']) && $association['dsid'] == 'MODS') {
 
-      $collection = isset($form_state['islandora']['shared_storage']['parent']) ? $form_state['islandora']['shared_storage']['parent'] : NULL;
+      $selected_collection_name = isset($form_state['islandora']['shared_storage']['parent']) ? $form_state['islandora']['shared_storage']['parent'] : NULL;
+      $selected_urls = get_license_deposit_url($selected_collection_name);
 
-      $steps['islandora_licensing_deposit_form'] = array(
-        'type' => 'form',
-        'form_id' => 'islandora_licensing_deposit_form',
-        'weight' => -10,
-        'args' => array($collection),
-        'file' => 'includes/deposit_form.inc',
-        'module' => 'islandora_licensing_deposit',
-      );
+      if(sizeof($selected_urls) > 0) {
+        $steps['islandora_licensing_deposit_form'] = array(
+          'type' => 'form',
+          'form_id' => 'islandora_licensing_deposit_form',
+          'weight' => -10,
+          'args' => array($selected_urls),
+          'file' => 'includes/deposit_form.inc',
+          'module' => 'islandora_licensing_deposit',
+        );
+      }
     }
   }
 }
@@ -57,4 +60,39 @@ function islandora_licensing_deposit_form_xml_form_builder_ingest_form_alter(&$f
 
 function islandora_licensing_deposit_form_xml_form_builder_datastream_form_alter(&$form, &$form_state, $form_id) {
   $form['accessCondition2']['#attributes'] = array('readonly' => 'readonly');
+}
+
+function get_license_deposit_url($selected_collection_name) {
+  global $user;
+  $user_roles = $user->roles;
+
+  $collections_url_map = variable_get('islandora_licensing_deposit');
+
+  $selected_urls = array();
+  foreach ($collections_url_map as $key => $value) {
+    $collection_name = $collections_url_map[$key]['collection'];
+    $collection_url = $collections_url_map[$key]['url'];
+    if ($collection_name == $selected_collection_name) {
+      $agreement_roles = $collections_url_map[$key]['roles'];
+      $bApplicable = check_if_agreement_applies_by_role($agreement_roles, $user_roles);
+      if($bApplicable) {
+        $selected_urls[$collection_url] = $collection_url;
+      }
+    }
+  }
+
+  return $selected_urls;
+}
+
+function check_if_agreement_applies_by_role($agreement_roles, $user_roles) {
+  $bApplicable = false;
+  foreach ($agreement_roles as $key => $value) {
+    if ($value != "0") {
+      if (in_array($value, $user_roles)) {
+        $bApplicable = true;
+        break;
+      }
+    }
+  }
+  return $bApplicable;
 }

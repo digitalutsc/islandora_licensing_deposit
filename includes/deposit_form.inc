@@ -19,11 +19,12 @@
  */
 
 function islandora_licensing_deposit_form(array $form, array &$form_state, $args) {
-  $selected_collection_name = $args;
-  $selected_urls = get_license_deposit_url($selected_collection_name);
+  $selected_urls = $args;
 
   // Init agreement url
-  $selected_url = array_values($selected_urls)[0];
+   $selected_url = array_values($selected_urls)[0];
+
+  $selected_url = "http://google.com";
 
   $form['islandora_licensing_deposit_agreement'] = array(
     '#type' => 'select',
@@ -76,20 +77,3 @@ function the_callback($form, &$form_state) {
 }
 
 
-function get_license_deposit_url($selected_collection_name) {
-  $collections_url_map = variable_get('islandora_licensing_deposit');
-  $selected_urls = array();
-  foreach ($collections_url_map as $key => $value) {
-    $collection_name = $collections_url_map[$key]['collection'];
-    $collection_url = $collections_url_map[$key]['url'];
-    if ($collection_name == $selected_collection_name) {
-      $selected_collection_url = $collection_url;
-      $selected_urls[$collection_url] = $collection_url;
-    }
-  }
-
-  $selected_collection_url = isset($collections_url_map["all"]["url"]) ? $collections_url_map["all"]["url"] : "NotSet";
-  $selected_urls[$selected_collection_url] = $selected_collection_url;
-
-  return $selected_urls;
-}
