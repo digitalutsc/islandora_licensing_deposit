@@ -67,6 +67,7 @@ function get_license_deposit_url($selected_collection_name) {
   $user_roles = $user->roles;
 
   $collections_url_map = variable_get('islandora_licensing_deposit');
+  $protocol = $_SERVER['REQUEST_SCHEME'];
 
   $selected_urls = array();
   foreach ($collections_url_map as $key => $value) {
@@ -77,6 +78,10 @@ function get_license_deposit_url($selected_collection_name) {
       $agreement_roles = $collections_url_map[$key]['roles'];
       $bApplicable = check_if_agreement_applies_by_role($agreement_roles, $user_roles);
       if($bApplicable) {
+        // If protocol not set, add it
+        if(substr($agreement_url, 0, 4) != "http"){
+          $agreement_url = $protocol . "://" . $agreement_url;
+        }
         $selected_urls[$agreement_url] = $agreement_label;
       }
     }

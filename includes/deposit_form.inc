@@ -22,7 +22,7 @@ function islandora_licensing_deposit_form(array $form, array &$form_state, $args
   $selected_urls = $args;
 
   // Init agreement url
-  $selected_url = array_values($selected_urls)[0];
+  $selected_url = array_keys($selected_urls)[0];
 
   $form['islandora_licensing_deposit_agreement'] = array(
     '#type' => 'select',
