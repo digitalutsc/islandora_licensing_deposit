@@ -71,12 +71,13 @@ function get_license_deposit_url($selected_collection_name) {
   $selected_urls = array();
   foreach ($collections_url_map as $key => $value) {
     $collection_name = $collections_url_map[$key]['collection'];
-    $collection_url = $collections_url_map[$key]['url'];
+    $agreement_url = $collections_url_map[$key]['url'];
+    $agreement_label = $collections_url_map[$key]['label'];
     if ($collection_name == $selected_collection_name) {
       $agreement_roles = $collections_url_map[$key]['roles'];
       $bApplicable = check_if_agreement_applies_by_role($agreement_roles, $user_roles);
       if($bApplicable) {
-        $selected_urls[$collection_url] = $collection_url;
+        $selected_urls[$agreement_url] = $agreement_label;
       }
     }
   }

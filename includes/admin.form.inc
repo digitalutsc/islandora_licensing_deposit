@@ -37,7 +37,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     '#suffix' => '</div>',
     '#tree' => TRUE,
     '#theme' => 'table',
-    '#header' => array(t('Collection'), t('Url'), t('Applicable Roles')),
+    '#header' => array(t('Collection'), t('Url'), t('Label'), t('Applicable Roles')),
     '#rows' => array(),
   );
   $user_roles = user_roles();
@@ -62,6 +62,12 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       '#default_value' => $collections_url_map[$key]['url'],
     );
 
+    $label = array(
+      '#id' => 'label_' . $key,
+      '#type' => 'textfield',
+      '#default_value' => $collections_url_map[$key]['label'],
+    );
+
     $roles = array(
       '#id' => 'role_' . $key,
       '#type' => 'checkboxes',
@@ -75,6 +81,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     $form['islandora_licensing_deposit'][$key] = array(
       'collection' => &$collection,
       'url' => &$url,
+      'label' => &$label,
       'roles' => &$roles,
     );
 
@@ -83,6 +90,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       'data' => array(
         'collection' => array('data' => &$collection),
         'url' => array('data' => &$url),
+        'label' => array('data' => &$label),
         'roles' => array('data' => &$roles),
       ),
     );
@@ -92,6 +100,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     // unset pointers
     unset($collection);
     unset($url);
+    unset($label);
     unset($roles);
   }
 
@@ -110,6 +119,12 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       '#type' => 'textfield',
     );
 
+    $label = array(
+      '#id' => 'label_' . $key,
+      '#type' => 'textfield',
+      '#default_value' => $collections_url_map[$key]['label'],
+    );
+
     $roles = array(
       '#id' => 'role_' . $key,
       '#type' => 'checkboxes',
@@ -122,6 +137,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     $form['islandora_licensing_deposit'][$key] = array(
       'collection' => &$collection,
       'url' => &$url,
+      'label' => &$label,
       'roles' => &$roles,
     );
 
@@ -130,6 +146,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
       'data' => array(
         'collection' => array('data' => &$collection),
         'url' => array('data' => &$url),
+        'label' => array('data' => &$label),
         'roles' => array('data' => &$roles),
       ),
     );
@@ -139,6 +156,7 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
     // unset pointers
     unset($collection);
     unset($url);
+    unset($label);
     unset($roles);
   }
 
