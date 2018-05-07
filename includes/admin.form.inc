@@ -105,8 +105,8 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
   }
 
   // Inserting new fields if the user clicked add
-  if (isset($form_state['num_names'])) {
-    $j = $collections_url_map_count + $form_state['num_names'];
+  if (isset($form_state['num_collection'])) {
+    $j = $collections_url_map_count + $form_state['num_collection'];
     $key = "row_item_" . $j;
 
     $collection = array(
@@ -210,10 +210,10 @@ function add_row($form, &$form_state) {
   variable_set('islandora_licensing_deposit', $table_values["islandora_licensing_deposit"]);
 
   // Rebuild the form with added item
-  if (!isset($form_state['num_names'])) {
-    $form_state['num_names'] = 1;
+  if (!isset($form_state['num_collection'])) {
+    $form_state['num_collection'] = 1;
   } else {
-    $form_state['num_names']++;
+    $form_state['num_collection']++;
   }
 
   $form_state['rebuild'] = true;

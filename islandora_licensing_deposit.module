@@ -10,7 +10,7 @@
 function islandora_licensing_deposit_menu() {
   $items['admin/islandora/tools/licensing_deposit'] = array(
     'title' => 'Licensing and Deposit',
-    'description' => '',
+    'description' => 'Configure licensing and deposit agreeements by collection.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('islandora_licensing_deposit_admin'),
     'access arguments' => array('administer site configuration'),
