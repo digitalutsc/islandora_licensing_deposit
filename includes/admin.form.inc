@@ -28,6 +28,8 @@ function islandora_licensing_deposit_admin(array $form, array &$form_state) {
   if ($collections_url_map_count == 0) {
     $collections_url_map["row_item_0"]["collection"] = "all";
     $collections_url_map["row_item_0"]["url"] = "default";
+    $collections_url_map["row_item_0"]["label"] = "";
+    $collections_url_map["row_item_0"]["roles"] = "";
     $collections_url_map_count = 1;
   }
 

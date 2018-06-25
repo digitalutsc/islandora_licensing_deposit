@@ -70,6 +70,15 @@ function get_license_deposit_url($selected_collection_name) {
   $protocol = $_SERVER['REQUEST_SCHEME'];
 
   $selected_urls = array();
+
+  // If no licensing deposit information has been set, return.
+  // This avoids undefined index notices in the foreach loop further in this
+  // function.
+  if(is_null($collections_url_map)){
+    // return empty selected urls array
+    return $selected_urls;
+  }
+
   foreach ($collections_url_map as $key => $value) {
     $collection_name = $collections_url_map[$key]['collection'];
     $agreement_url = $collections_url_map[$key]['url'];
