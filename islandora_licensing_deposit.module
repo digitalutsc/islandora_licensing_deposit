@@ -52,9 +52,11 @@ function islandora_licensing_deposit_form_xml_form_builder_ingest_form_alter(&$f
   }
 
   $timestamp = date('Y-m-d H:i:s');
-  $agreement_url = $form_state['islandora']['shared_storage']['agreement_url'];
-  $form['accessCondition2']['#value'] = $agreement_url . " | " . $username . " | " . $timestamp;
-  $form['accessCondition2']['#attributes'] = array('readonly' => 'readonly');
+  if(isset($form_state['islandora']['shared_storage']['agreement_url'])) {
+    $agreement_url = $form_state['islandora']['shared_storage']['agreement_url'];
+    $form['accessCondition2']['#value'] = $agreement_url . " | " . $username . " | " . $timestamp;
+    $form['accessCondition2']['#attributes'] = array('readonly' => 'readonly');
+  }
 }
 
 
